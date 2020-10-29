@@ -219,8 +219,7 @@ def optimize_rsu(dbname, tables_list, fcpmax):
         """
 
         # Checking if there are partitions on the current table
-        ptables = sql_query(['EXPLAIN PARTITIONS select * from ' + dbname +
-                             '.' + table + ';'], True)
+        ptables = sql_query(['EXPLAIN PARTITIONS select * from `' + dbname + '`.`' + table + '`;'], True)
         if ptables[0][3] == None:
           partitions = ['no partitions']
         else:
@@ -231,19 +230,16 @@ def optimize_rsu(dbname, tables_list, fcpmax):
         if len(partitions) == 1:
             start_time = datetime.now()
             sql_query(['SET wsrep_on=OFF;',
-                       'optimize table ' + dbname + '.' + table + ';'],
+                       'optimize table `' + dbname + '`.`' + table + '`;'],
                       False, False)
             print_formatted_results(start_time, size)
         else:
             for partition in partitions:
                 start_time = datetime.now()
-                print_color('subsub', 'partition ' + partition +
-                            ' in progress')
-                print('ALTER ONLINE TABLE ' + dbname + '.' + table +
-                      ' REBUILD PARTITION ' + partition + ';')
+                print_color('subsub', 'partition ' + partition + ' in progress')
+                print('ALTER ONLINE TABLE `' + dbname + '`.`' + table + '` REBUILD PARTITION ' + partition + ';')
                 sql_query(['SET wsrep_on=OFF;',
-                           'ALTER ONLINE TABLE ' + dbname + '.' + table +
-                           ' REBUILD PARTITION ' + partition + ';'],
+                           'ALTER ONLINE TABLE `' + dbname + '`.`' + table + '` REBUILD PARTITION ' + partition + ';'],
                           False, False)
                 print_formatted_results(start_time, size)
                 get_wsrep_fcp(fcpmax)
