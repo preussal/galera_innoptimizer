@@ -87,7 +87,7 @@ def sql_query(queries, return_list=False, exit_fail=True):
     try:
         query = ' '.join(queries)
         cur.execute(query)
-    except MySQLdb.Error, e:
+    except MySQLdb.Error as e:
         try:
             print_color('fail', "MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
             if (exit_fail):
@@ -155,7 +155,7 @@ def enable_rsu():
     Enable RSU Galera mode
     """
     print_color('+', 'Enabling RSU mode')
-    print ''
+    print('')
     check_and_set_param('SHOW VARIABLES LIKE "wsrep_OSU_method";',
                         'wsrep_OSU_method', 'RSU',
                         'SET wsrep_OSU_method="RSU";')
@@ -167,7 +167,7 @@ def restore_toi():
     Restore TOI Galera mode
     """
     print_color('+', 'Restoring TOI mode')
-    print ''
+    print('')
     check_and_set_param('SHOW GLOBAL VARIABLES LIKE "wsrep_on";',
                         'wsrep_on', 'ON', 'SET GLOBAL wsrep_on=ON;')
     check_and_set_param('SHOW VARIABLES LIKE "wsrep_OSU_method";',
@@ -251,7 +251,7 @@ def optimize_rsu(dbname, tables_list, fcpmax):
     # Optimize each tables
     enable_rsu()
     print_color('+', 'Starting optimization on ' + dbname + ' database')
-    print ''
+    print('')
     for row in tables_list:
         get_wsrep_fcp(fcpmax)
         launch_sql_queries(row[0], row[1])
@@ -290,7 +290,7 @@ def check_mysql_connection():
     try:
         print_color('+', 'Trying to connect to MySQL/MariaDB instance')
         db = MySQLdb.connect(host=hostname, port=port, user=username, passwd=password)
-    except MySQLdb.Error, e:
+    except MySQLdb.Error as e:
         try:
             print_color('fail', "ERROR [%d]: %s" % (e.args[0], e.args[1]))
             sys.exit(1)
@@ -359,7 +359,7 @@ def check_galera_current_state():
         return wsrep_param
 
     print_color('+', "Checking current Galera state")
-    print ''
+    print('')
     # Mandatory checks
     check_param('SHOW STATUS LIKE "wsrep_ready";', 'wsrep_ready', 'ON',
                 'Galera node seams unsynced')
@@ -522,7 +522,7 @@ def args():
         tables_list = get_sorted_tables_by_size(database, restrict_tables)
         optimize_rsu(database, tables_list, fcpmax)
 
-    print 'Done !'
+    print('Done !')
 
 
 def main():

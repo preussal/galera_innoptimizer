@@ -18,10 +18,16 @@ To make this tool working, you need those elements installed:
 * python colorama library
 * python mysqldb library
 
+python3
+* python3
+* python3-colorama library
+* python3-mysqldb library
+
 If you're running Debian/Ubuntu, you can install this with this line:
 
 ```
 aptitude install python-mysqldb python-colorama
+aptitude install python3-mysqldb python3-colorama
 ```
 
 On CentOS 6, you can install with:
@@ -139,4 +145,3 @@ Author Information
 ------------------
 
 Pierre Mavro / deimosfr
-
